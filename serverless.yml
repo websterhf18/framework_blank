@@ -1,0 +1,29 @@
+service:
+  name: cron-reunidos-email-sls
+
+plugins:
+  - serverless-webpack
+
+provider: 
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'staging'}
+  apiGateway:
+    minimumCompressionSize: 1024
+  environment: 
+    DB_HOST: 'reunidos-1.coivsmxlztms.us-east-2.rds.amazonaws.com'
+    DB_USER: 'postgres'
+    DB_PASS: 'vA4vvFNyD6CKnwj9U9vY'
+    DB_NAME: 'reunidos_db_dev'
+    SECRET: 'bf2998d6519fba7bee619dakiaIObuBHY9BG7buyb0ybv0YBybbf2998d6519fba7bee619d02ce54d888b44a633e8e3e36388e625dd82969262afbdc8342e062665b2ec88f2d331de7c18784a5e18c03ef522c18c106c71d18cf02ce54d888b44a633e8e3e36388e625dd82969262afbdc8342e062665b2ec88f2d331de7c18784a5e18c03ef522c18c106c71d18cf'
+    POSTGRESQL_PORT: '5432'
+
+custom:
+  webpack:
+    includeModules: true
+
+functions:
+  frameworkInit:
+    handler: handler.frameworkInit
+    events: 
+      - schedule: cron(45 16 * * ? *)
